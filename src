@@ -20,6 +20,40 @@ CREATE TABLE Produtos (
 
 CREATE TABLE PedidosReposicao (
     PedidoID INT PRIMARY KEY AUTO_INCREMENT,
+    ProdutoID INT,
+    QuantidadeReposicao INT,
+    DataPedido DATE,
+    FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
+);
+
+INSERT INTO Fornecedores (NomeFornecedor, ContatoFornecedor, TelefoneFornecedor) VALUES
+('Fornecedor A','contato@fornecedorA.com','1234-5678'),
+('Fornecedor B','contato@fornecedorB.com','8910-1112');
+
+INSERT INTO PedidosReposicao (ProdutoID, QuantidadeReposicao, DataPedido) VALUES
+(1,20,'2024-08-10'),
+(2,50,'2024-08-12');
+
+SELECT * FROM Produtos;
+
+SELECT p.NomeProduto, pr.QuantidadeReposicao, pr.DataPedido 
+FROM PedidosReposicao p
+JOIN Produtos p ON pr.ProdutoID = p.ProdutoID;
+
+SELECT p.NomeProduto,f.NomeFornecedor
+FROM Produtos p
+JOIN Fornecedores f ON p.FornecedorID = f.FornecedorID;
+
+UPDATE Produtos
+SET QuantidadeEstoque = QuantidadeEstoque + 20
+WHERE ProdutoID = 1;
+
+DELETE FROM Fornecedores
+WHERE FornecedorID = 2;
+
+DELETE FROM Produtos
+WHERE ProdutoID = 2;
+
 
 
     
