@@ -1,0 +1,25 @@
+CREATE DATABASE SistemaControleEstoque;
+
+USE SistemaControleEstoque;
+
+CREATE TABLE Fornecedores (
+    FornecedorID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeFornecedor VARCHAR(100),
+    ContatoFornecedor VARCHAR(100),
+    TelefoneFornecedor VARCHAR(20)
+);
+
+CREATE TABLE Produtos (
+    ProdutoID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeProduto VARCHAR(100),
+    QuantidadeEstoque INT,
+    PrecoUnitario DECIMAL(10,2),
+    FornecedorID INT,
+    FOREIGN KEY (FornecedorID) REFERENCES Fornecedores(FornecedorID)
+);
+
+CREATE TABLE PedidosReposicao (
+    PedidoID INT PRIMARY KEY AUTO_INCREMENT,
+
+
+    
