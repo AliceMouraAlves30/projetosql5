@@ -1,3 +1,5 @@
+DROP DATABASE SistemaControleEstoque;
+
 CREATE DATABASE SistemaControleEstoque;
 
 USE SistemaControleEstoque;
@@ -9,40 +11,52 @@ CREATE TABLE Fornecedores (
     TelefoneFornecedor VARCHAR(20)
 );
 
+DROP TABLE IF EXISTS Produtos;
+
 CREATE TABLE Produtos (
     ProdutoID INT PRIMARY KEY AUTO_INCREMENT,
-    NomeProduto VARCHAR(100),
-    QuantidadeEstoque INT,
-    PrecoUnitario DECIMAL(10,2),
     FornecedorID INT,
-    FOREIGN KEY (FornecedorID) REFERENCES Fornecedores(FornecedorID)
+    Nome VARCHAR(100) NOT NULL,
+    Preco DECIMAL(10, 2) NOT NULL,
+    QuantidadeEstoque INT NOT NULL
 );
 
+
+
 CREATE TABLE PedidosReposicao (
-    PedidoID INT PRIMARY KEY AUTO_INCREMENT,
-    ProdutoID INT,
-    QuantidadeReposicao INT,
-    DataPedido DATE,
-    FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
+    PedidoID INT AUTO_INCREMENT PRIMARY KEY,
+    ProdutoID INT NOT NULL,
+    QuantidadeReposicao INT NOT NULL,
+    DataPedido DATE NOT NULL,
+    FOREIGN KEY (ProdutoID) REFERENCES produtos(ProdutoID)
 );
+
 
 INSERT INTO Fornecedores (NomeFornecedor, ContatoFornecedor, TelefoneFornecedor) VALUES
 ('Fornecedor A','contato@fornecedorA.com','1234-5678'),
 ('Fornecedor B','contato@fornecedorB.com','8910-1112');
 
+INSERT INTO Produtos (ProdutoID, Nome, Preco, QuantidadeEstoque) VALUES
+(1, 'Produto A', 10.55, 100),
+(2, 'Produto B', 8.50, 95);
+
+
 INSERT INTO PedidosReposicao (ProdutoID, QuantidadeReposicao, DataPedido) VALUES
-(1,20,'2024-08-10'),
-(2,50,'2024-08-12');
+(1, 20, '2024-08-10'),
+(2, 50, '2024-08-12');
 
 SELECT * FROM Produtos;
 
-SELECT p.NomeProduto, pr.QuantidadeReposicao, pr.DataPedido 
-FROM PedidosReposicao p
-JOIN Produtos p ON pr.ProdutoID = p.ProdutoID;
+SELECT p.Nome, pr.QuantidadeReposicao, pr.DataPedido  
+FROM PedidosReposicao pr
+JOIN Produtos p ON pr.ProdutoID = p.ProdutoID
+LIMIT 0, 1000;
 
-SELECT p.NomeProduto,f.NomeFornecedor
+
+SELECT p.Nome, f.NomeFornecedor
 FROM Produtos p
-JOIN Fornecedores f ON p.FornecedorID = f.FornecedorID;
+JOIN Fornecedores f ON p.FornecedorID = f.FornecedorID
+LIMIT 0, 1000;
 
 UPDATE Produtos
 SET QuantidadeEstoque = QuantidadeEstoque + 20
@@ -51,8 +65,14 @@ WHERE ProdutoID = 1;
 DELETE FROM Fornecedores
 WHERE FornecedorID = 2;
 
+-- Excluir os registros da tabela `pedidosreposicao` relacionados ao `ProdutoID` 2
+DELETE FROM PedidosReposicao
+WHERE ProdutoID = 2;
+
+-- Agora você pode excluir o produto
 DELETE FROM Produtos
 WHERE ProdutoID = 2;
+
 
 
 
