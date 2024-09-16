@@ -1,0 +1,21 @@
+# Ignorar arquivos de banco de dados
+*.sql
+
+# Ignorar arquivos temporários e de configuração
+*.log
+*.tmp
+
+# Ignorar arquivos de backup
+*.bak
+*.backup
+
+# Ignorar arquivos de sistema
+.DS_Store
+
+# Ignorar arquivos específicos do IDE
+.idea/
+.vscode/
+
+# Ignorar arquivos gerados por alguns sistemas operacionais
+Thumbs.db
+Desktop.ini
