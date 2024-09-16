@@ -1,0 +1,64 @@
+# Sistema de Controle de Estoque
+
+Este é um projeto para gerenciar o controle de estoque, incluindo fornecedores, produtos e pedidos de reposição.
+
+## Estrutura do Banco de Dados
+
+O banco de dados é composto por três tabelas principais:
+
+1. **Fornecedores**: Armazena informações sobre os fornecedores.
+   - `FornecedorID`: Identificador único do fornecedor (chave primária).
+   - `NomeFornecedor`: Nome do fornecedor.
+   - `ContatoFornecedor`: Contato do fornecedor.
+   - `TelefoneFornecedor`: Telefone do fornecedor.
+
+2. **Produtos**: Armazena informações sobre os produtos.
+   - `ProdutoID`: Identificador único do produto (chave primária).
+   - `FornecedorID`: Identificador do fornecedor (chave estrangeira).
+   - `Nome`: Nome do produto.
+   - `Preco`: Preço do produto.
+   - `QuantidadeEstoque`: Quantidade em estoque do produto.
+
+3. **PedidosReposicao**: Armazena informações sobre os pedidos de reposição.
+   - `PedidoID`: Identificador único do pedido (chave primária).
+   - `ProdutoID`: Identificador do produto (chave estrangeira).
+   - `QuantidadeReposicao`: Quantidade de reposição solicitada.
+   - `DataPedido`: Data do pedido de reposição.
+
+## Instruções
+
+1. **Criar o Banco de Dados**
+
+   Execute o script SQL abaixo para criar o banco de dados e as tabelas:
+
+   ```sql
+   DROP DATABASE IF EXISTS SistemaControleEstoque;
+
+   CREATE DATABASE SistemaControleEstoque;
+
+   USE SistemaControleEstoque;
+
+   CREATE TABLE Fornecedores (
+       FornecedorID INT PRIMARY KEY AUTO_INCREMENT,
+       NomeFornecedor VARCHAR(100),
+       ContatoFornecedor VARCHAR(100),
+       TelefoneFornecedor VARCHAR(20)
+   );
+
+   DROP TABLE IF EXISTS Produtos;
+
+   CREATE TABLE Produtos (
+       ProdutoID INT PRIMARY KEY AUTO_INCREMENT,
+       FornecedorID INT,
+       Nome VARCHAR(100) NOT NULL,
+       Preco DECIMAL(10, 2) NOT NULL,
+       QuantidadeEstoque INT NOT NULL
+   );
+
+   CREATE TABLE PedidosReposicao (
+       PedidoID INT AUTO_INCREMENT PRIMARY KEY,
+       ProdutoID INT NOT NULL,
+       QuantidadeReposicao INT NOT NULL,
+       DataPedido DATE NOT NULL,
+       FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
+   );
